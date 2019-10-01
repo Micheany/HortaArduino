@@ -53,4 +53,33 @@ void loop()
     delay(300);
   }
   
+ ///// RELE /////
+  
+  //Solo umido, nao liga o rele
+  if (valor_analogico >= 0 && valor_analogico < 600)
+  {
+  Serial.print("\no solo ja esta umido, nao ha necessidade de mais água-high\n");
+  Serial.print(valor_analogico);
+  digitalWrite(Rele,HIGH);
+  }
+  //Solo com umidade moderada, liga o rele por 2segundos
+  if (valor_analogico >= 600 && valor_analogico < 800)
+  {
+    Serial.print("\numidade moderada, acionando o rele-low--high\n");
+    Serial.print(valor_analogico);
+    digitalWrite(Rele,LOW); //liga rele
+    delay(5000);              //tempo ligado em milisegundos
+    digitalWrite(Rele,HIGH); //desliga rele
+    delay(200);   //tempo desligado em milisegundos
+  }
+  //solo seco, liga o rele por 5 segundos
+  if (valor_analogico >= 800 && valor_analogico <= 1024)
+  {
+    Serial.print("\numidade baixa, acionando o rele--low--high\n");
+    Serial.print(valor_analogico);
+    digitalWrite(Rele,LOW);
+    delay(5000);
+    digitalWrite(Rele,HIGH);
+    delay(200);
+  }
 }
